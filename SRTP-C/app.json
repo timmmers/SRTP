@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/myself/index/index",
+    "pages/map/index/index",
+    "pages/main/login/login",
+    "pages/main/index/index",
+    "pages/map/search/search"
+  ],
+  "window": {
+    "navigationStyle": "custom"
+  },
+  "usingComponents": {
+    "cu-custom": "/colorui/nav-bar/cu-custom"
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "selectedColor": "red",
+    "backgroundColor": "#fffff0",
+    "list": [
+      {
+        "pagePath": "pages/main/index/index",
+        "iconPath": "/tab-icons/main.png",
+        "selectedIconPath": "/tab-icons/main-chosen.png",
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/map/index/index",
+        "iconPath": "/tab-icons/map.png",
+        "selectedIconPath": "/tab-icons/map-chosen.png",
+        "text": "导航"
+      },
+      {
+        "pagePath": "pages/myself/index/index",
+        "iconPath": "/tab-icons/myself.png",
+        "selectedIconPath": "/tab-icons/myself-chosen.png",
+        "text": "个人"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "onLocationChange",
+    "startLocationUpdate"
+  ],
+  "plugins": {
+    "WechatSI": {
+      "version": "0.3.6",
+      "provider": "wx069ba97219f66d99"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<!--pages/myself/index/index.wxml-->
+<!--自定义的导航栏组件, 每个page头部都要有-->
+<cu-custom bgColor="bg-gradual-myself" isBack="{{false}}" isCustom="{{true}}">
+  <view slot="content" class="bold-text">智游畅行</view>
+</cu-custom>
+
+<view style="position: fixed; width: {{bgWidth}}px; top: 0; bottom: 0;background-color: white;">
+  <view class="backGround" style="height: {{bgHeight}}px;"></view>
+  <view class="container-out" bindtap="login" style="margin: {{halfHeight}}px auto;" id="login">
+    <view style="display: inline-block; left: 40rpx;">
+      <image src="/myself-icons/milong.png" style="width: 240rpx;height: 240rpx; margin: 10rpx;"></image>
+    </view>
+    <view class="textout">
+      <view class="word1">
+        <text>智游畅行</text>
+      </view>
+      <view class="word2">
+        <text>智慧游行，自由，畅行无阻</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="item-out" style="top: {{bgHeight + 10}}px;">
+  <view class="item">
+    <image class="img-left" src="/myself-icons/info.png"></image>
+    <view class="word-middle">个人信息</view>
+    <image class="img-right" src="/myself-icons/in.png"></image>
+  </view>
+
+  <view class="item">
+    <image class="img-left" src="/myself-icons/message.png"></image>
+    <view class="word-middle">消息通知</view>
+    <image class="img-right" src="/myself-icons/in.png"></image>
+  </view>
+
+  <view class="item">
+    <image class="img-left" src="/myself-icons/history.png"></image>
+    <view class="word-middle">历史记录</view>
+    <image class="img-right" src="/myself-icons/in.png"></image>
+  </view>
+
+  <view class="item">
+    <image class="img-left" src="/myself-icons/star.png"></image>
+    <view class="word-middle">园区收藏</view>
+    <image class="img-right" src="/myself-icons/in.png"></image>
+  </view>
+</view>

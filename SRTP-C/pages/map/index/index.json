@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "my-modal": "/components/my-modal/my-modal",
+    "pop-view": "/components/pop-view/pop-view"
+  }
+}

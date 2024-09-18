@@ -1,0 +1,36 @@
+/* pages/main/login/login.wxss */
+.backGround {
+  width: 100%;
+  /* 从左上角到右下角的对角线渐变 */
+  background-image: linear-gradient(to bottom right, #00ff80, #ff00ff);
+  border-radius: 0 0 25rpx 25rpx;
+  overflow: hidden;
+}
+   
+.container-out {
+  display: flex;
+  align-items: center;
+  width: 650rpx;
+  height: 300rpx;
+  box-shadow: 1rpx 1rpx 19rpx 1rpx rgba(0, 0, 0, .03);
+  border-radius: 20rpx;
+  background-color: rgb(255, 255, 255);
+}
+   
+.textout {
+  display: inline-block;
+  width: 360rpx;
+  height: 210rpx;
+  font-family: "STSong";
+  border-left: 2px solid #ff00ff;
+}
+.word1 {
+  margin-left: 40rpx;
+  font-size: 65rpx;
+  font-weight: 900;
+}
+.word2 {
+  margin-top: 35rpx;
+  margin-left: 40rpx;
+  font-size: 30rpx;
+}
