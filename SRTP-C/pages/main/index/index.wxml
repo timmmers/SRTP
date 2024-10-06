@@ -1,5 +1,0 @@
-<!--pages/main/index/index.wxml-->
-<!--自定义的导航栏组件, 每个page头部都要有-->
-<cu-custom bgColor="bg-gradual-myself" isBack="{{false}}" isCustom="{{true}}">
-  <view slot="content" class="bold-text">智游畅行</view>
-</cu-custom>
