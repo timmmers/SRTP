@@ -1,0 +1,72 @@
+/* pages/map/index/index.wxss */
+/*  地图样式 */
+.myMap {
+    width: 100%;
+    position: fixed;
+}
+
+.designed-button {
+    position: fixed;
+    bottom: 50rpx;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-family: "STSong";
+    border-radius: 10rpx;
+    width: 350rpx;
+    font-size: 45rpx;
+    font-weight: 900;
+    letter-spacing: 6rpx;
+
+    background: #d8aa14;
+    border: 2px solid #3a6ad2;
+    transform: translate3d(0px, 0%, 0px);
+    text-decoration: none;
+    transition-delay: 0.6s;
+    overflow: hidden;
+    padding: 10px 20px;
+}
+
+.item {
+    padding: 10px;
+    border: 2rpx solid #ccc;
+    margin: 6rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icon-button {
+  position: fixed;
+  background-color: #ffffff;
+  border-radius: 15rpx;
+}
+
+.icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-top: 8rpx;
+  margin-left: 8rpx;
+  margin-right: 8rpx;
+  margin-bottom: 4rpx;
+}
+
+@keyframes scaleAnimation {
+  0% {
+    transform: scale(1); /* 初始大小 */
+  }
+  50% {
+    transform: scale(1.5); /* 变大 */
+  }
+  100% {
+    transform: scale(1); /* 回到初始大小 */
+  }
+}
+
+.design-icon {
+  position: fixed;
+  bottom: 50rpx;
+  width: 120rpx;
+  height: 120rpx;
+  animation: scaleAnimation 2s infinite ease-in-out;
+}

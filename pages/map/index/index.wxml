@@ -1,0 +1,60 @@
+<!--pages/map/index/index.wxml-->
+<!--自定义的导航栏组件, 每个page头部都要有-->
+<cu-custom bgColor="bg-gradual-myself" isBack="{{false}}" isCustom="{{true}}">
+  <view slot="content" class="bold-text">智游畅行</view>
+</cu-custom>
+
+<map 
+  class="myMap"
+  style="height: {{remainHeight}}px;"
+  markers="{{markers}}"
+  longitude="{{lng}}"
+  latitude="{{lat}}"
+  scale="{{scale}}"
+  show-location="true"
+  enable-poi="true"
+  show-compass="true"
+  enable-traffic="true"
+  enable-building="true"
+  bindregionchange="showCenter"
+  polygons="{{polygons}}"
+  polyline="{{polyline}}">
+</map>
+
+<image bind:tap="getRoute" id="designBtn" src="/map-icons/design.png" class="design-icon" style="left: {{halfHeight1}}px;"></image>
+
+<view bindtap="refreshPosition" class="icon-button" style="left: 20rpx;bottom: 180rpx;">
+  <image class="icon" src="/map-icons/refresh.png"></image>
+</view>
+
+<view bindtap="decideStartOrEnd" data-type="start" class="icon-button" style="left: 20rpx;bottom: 300rpx;">
+  <image class="icon" src="/map-icons/start.png"></image>
+</view>
+
+<view bindtap="decideStartOrEnd" data-type="end" class="icon-button" style="left: 20rpx;bottom: 420rpx;">
+  <image class="icon" src="/map-icons/end.png"></image>
+</view>
+
+<view bind:tap="handleExistedMid" class="icon-button" style="right: 20rpx;bottom: 180rpx;">
+  <image class="icon" src="/map-icons/mid.png"></image>
+</view>
+
+<view bindtap="clearAllInMap" class="icon-button" style="right: 20rpx;bottom: 300rpx;">
+  <image class="icon" src="/map-icons/clear.png"></image>
+</view>
+
+<view bindtap="goToSearch" class="icon-button" style="right: 20rpx;bottom: 420rpx;">
+  <image class="icon" src="/map-icons/search.png"></image>
+</view>
+
+<image hidden="{{isHidden}}" id="targetIcon" style="position: fixed;width: 35px;height: 35px;left: {{centerX}}px;top: {{centerY}}px;" src="/map-icons/target.png"></image>
+
+<my-modal show="{{showModal}}" title="标记点列表" bind:close="closeMyModal">
+  <!-- 可以放置任意组件 -->
+  <block wx:for="{{markers}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+    <view class="item">
+      <view bind:tap="moveToMarker" data-index="{{item.id}}" style="flex-grow: 1;">{{item.callout.content}}</view>
+      <image bindtap="deletePoint" data-index="{{item.id}}" style="width: 57rpx;height: 57rpx;" src="/map-icons/delete.png"></image>
+    </view>
+  </block>
+</my-modal>

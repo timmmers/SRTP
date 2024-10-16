@@ -1,0 +1,9 @@
+<view class="modal" wx:if="{{show}}" catchtouchmove="preventTouchMove">
+  <view class="modal-overlay" bindtap="closeModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">{{title}}</view>
+    <scroll-view scroll-y="true" class="scroll-view">
+      <slot></slot>
+    </scroll-view>
+  </view>
+</view>
