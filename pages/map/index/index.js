@@ -18,6 +18,8 @@ Page({
     uniqueID: 1,  // 设置一个自增的唯一 ID, 给地图中出现的每一个点的 id 属性赋值
     polygons: null,
     polyline: null,
+    isDesign: true,
+    color: ['#7bbae4', '#C0C0C0', '#808000', '#32CD32', '#008080', '#FF7F50', '#FFD700', '#FF00FF', '#00FFFF', '#FFA500', '#0000FF', '#FFC0CB'],
   },
 
   createID() {
@@ -109,7 +111,6 @@ Page({
         });
         return;
       }
-      console.log(res.data);
       const data = res.data;
       const polyline = [];
       for (let i = 0; i < data.length; ++i) {
@@ -137,16 +138,28 @@ Page({
         }
         polyline.push(param);
       }
+      const color = this.data.color;
+      const polylineMks = [];
       for (let i = 0; i < polyline.length; ++i) {
         polyline[i]['width'] = 5;
         polyline[i]['borderWidth'] = 2;
         polyline[i]['arrowLine'] = true;
-        polyline[i]['color'] = '#7bbae4';
+        polyline[i]['color'] = color[i % (color.length - 1)];
         polyline[i]['borderColor'] = '#2c2c2c';
+        polylineMks.push(points.filter(item => item.rid == polyline[i]['start'])[0]);
+        if (i == polyline.length - 1) {
+          polylineMks.push(points.filter(item => item.rid == polyline[i]['end'])[0]);
+        }
       }
-      console.log(polyline);
+
       this.setData({ polyline: polyline });
+      this.showRouteMessage(polylineMks);
     });
+  },
+
+  showRouteMessage(polylineMks) {
+    console.log(polylineMks);
+    this.setData({ polylineMks: polylineMks, isDesign: false })
   },
 
   getWays(i, regions) {
@@ -344,7 +357,8 @@ Page({
       targetIdx: -1,
       startIdx: -1,
       endIdx: -1,
-      uniqueID: 1
+      uniqueID: 1,
+      isDesign: true
     })
   },
 

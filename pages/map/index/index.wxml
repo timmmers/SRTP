@@ -58,3 +58,14 @@
     </view>
   </block>
 </my-modal>
+
+<view hidden="{{isDesign}}" style="width: 100%;display: flex; justify-content: center;position: fixed; top: 100px;">
+  <view class="route-bg">
+    <scroll-view scroll-x enable-flex class="route-msg">
+      <view wx:for="{{polylineMks}}" wx:key="index" class="route">
+        <image style="width: 100rpx; height: 100rpx;" src="{{item.iconPath}}"></image>
+        <view>{{item.callout.content}}</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

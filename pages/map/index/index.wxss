@@ -70,3 +70,28 @@
   height: 120rpx;
   animation: scaleAnimation 2s infinite ease-in-out;
 }
+
+.route-bg {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 1rpx 1rpx 19rpx 1rpx rgba(0, 0, 0, .03);
+  border-radius: 20rpx;
+  background-color: rgba(172, 182, 182, 0.8);
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.route-msg {
+  display: flex;
+  white-space: nowrap;
+  height: 140rpx;
+  width: 80%;
+  justify-content: center;
+}
+
+.route {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

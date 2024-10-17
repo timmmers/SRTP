@@ -31,7 +31,7 @@ App({
     musicManager.loop = true;
     musicManager.play();
     // 创建一个用于导航时语言播报的对象
-    const audioManager = wx.createInnerAudioContext();
+    const audioManager = wx.createInnerAudioContext({ useWebAudioImplement: true });
     this.globalData.audioManager = audioManager;
   },
 
@@ -172,18 +172,32 @@ App({
    */
   generateAudio(text){
     const plugin = this.globalData.plugin;
-    plugin.textToSpeech({
-      lang: "zh_CN",
-      tts: true,
-      content: text,
-      success: (res) => {
-        console.log("成功进行语音合成: ", res.filename);
-        src = res.filename;
-      },
-      fail: () => {
-        console.error("语言合成失败");
-      }
+    return new Promise((resolve, reject) => {
+      plugin.textToSpeech({
+        lang: "zh_CN",
+        tts: true,
+        content: text,
+        success: (res) => {
+          resolve(res.filename);
+        },
+        fail: () => {
+          reject("语言合成文本\"" + text + "\"失败");
+        }
+      });
     });
+  },
+
+  /**
+   * 播放一段音频
+   * @param src 音频文件的链接
+   */
+  playAudio(src) {
+    const audioManager = this.globalData.audioManager;
+    if (audioManager.paused) {
+      return false;
+    }
+    audioManager.src = src;
+    audioManager.play();
   },
 
   // 全局变量
