@@ -18,8 +18,62 @@ Page({
     uniqueID: 1,  // 设置一个自增的唯一 ID, 给地图中出现的每一个点的 id 属性赋值
     polygons: null,
     polyline: null,
-    isDesign: true,
+    isDesign: false,
     color: ['#7bbae4', '#C0C0C0', '#808000', '#32CD32', '#008080', '#FF7F50', '#FFD700', '#FF00FF', '#00FFFF', '#FFA500', '#0000FF', '#FFC0CB'],
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad(options) {
+    const points = zoo_points.map(item => {
+      return {latitude: item.lat, longitude: item.lng}
+    });
+
+    // app.sendRequest('GET', '/user/points/all/get', null, null).then((res) => {
+    //   const target = res.data;
+    //   const mks = [];
+    //   for (let i = 0; i < target.length; ++i) {
+    //     const marker = this.createNewMarker();
+    //     marker.callout.content = target[i].name;
+    //     marker.latitude = target[i].lat;
+    //     marker.longitude = target[i].lng;
+    //     mks.push(marker);
+    //   }
+    //   this.setData({ markers: mks });
+    // });
+
+    const query = wx.createSelectorQuery();
+    query.select('#designBtn').boundingClientRect((rect) => {
+      if (rect) {
+        this.setData({
+          halfHeight1: (app.globalData.remainWidth - rect.width) / 2,
+        })
+      }
+    }).exec();
+    
+    query.select('#targetIcon').boundingClientRect((rect) => {
+      if (rect) {
+        this.setData({
+          centerX: (app.globalData.remainWidth - rect.width) / 2,
+          centerY: app.globalData.CustomBar + app.globalData.remainHeight * 0.5 - rect.height * 0.8,
+          isHidden: true
+        })
+      }
+    }).exec();
+
+    this.setData({
+      lat: 32.09178,
+      lng: 118.802874,
+      remainHeight: app.globalData.remainHeight, // 设置地图的高度为屏幕剩余高度
+      targetTop: app.globalData.CustomBar + 20,
+      polygons: [{
+        points: points,
+        strokeWidth: 3,
+        strokeColor: "#ee8138",
+        fillColor: "#05b5f540"
+      }],
+    });
   },
 
   createID() {
@@ -68,7 +122,7 @@ Page({
       point.callout.color = '#14d8ce';
     } else if (type == 'mid') {
       point.iconPath = "/map-icons/mid-point.png";
-      point.callout.color = "#6523db";
+      point.callout.color = "#c111b3";
     } else if (type == 'end') {
       point.iconPath = "/map-icons/end-point.png";
       point.callout.color = "#d81e06";
@@ -159,7 +213,7 @@ Page({
 
   showRouteMessage(polylineMks) {
     console.log(polylineMks);
-    this.setData({ polylineMks: polylineMks, isDesign: false })
+    this.setData({ polylineMks: polylineMks, isDesign: true })
   },
 
   getWays(i, regions) {
@@ -188,59 +242,6 @@ Page({
         this.getWays(i, regions);
       }, 1300);
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-    const points = zoo_points.map(item => {
-      return {latitude: item.lat, longitude: item.lng}
-    });
-
-    // app.sendRequest('GET', '/user/points/all/get', null, null).then((res) => {
-    //   const target = res.data;
-    //   const mks = [];
-    //   for (let i = 0; i < target.length; ++i) {
-    //     const marker = this.createNewMarker();
-    //     marker.callout.content = target[i].name;
-    //     marker.latitude = target[i].lat;
-    //     marker.longitude = target[i].lng;
-    //     mks.push(marker);
-    //   }
-    //   this.setData({ markers: mks });
-    // });
-
-    const query = wx.createSelectorQuery();
-    query.select('#designBtn').boundingClientRect((rect) => {
-      if (rect) {
-        this.setData({
-          halfHeight1: (app.globalData.remainWidth - rect.width) / 2,
-        })
-      }
-    }).exec();
-    
-    query.select('#targetIcon').boundingClientRect((rect) => {
-      if (rect) {
-        this.setData({
-          centerX: (app.globalData.remainWidth - rect.width) / 2,
-          centerY: app.globalData.CustomBar + app.globalData.remainHeight * 0.5 - rect.height * 0.8,
-          isHidden: true
-        })
-      }
-    }).exec();
-
-    this.setData({
-      lat: 32.09178,
-      lng: 118.802874,
-      remainHeight: app.globalData.remainHeight, // 设置地图的高度为屏幕剩余高度
-      polygons: [{
-        points: points,
-        strokeWidth: 3,
-        strokeColor: "#ee8138",
-        fillColor: "#05b5f540"
-      }],
-    });
   },
 
   /**
@@ -358,7 +359,7 @@ Page({
       startIdx: -1,
       endIdx: -1,
       uniqueID: 1,
-      isDesign: true
+      isDesign: false
     })
   },
 

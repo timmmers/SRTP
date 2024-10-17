@@ -59,7 +59,7 @@
   </block>
 </my-modal>
 
-<view hidden="{{isDesign}}" style="width: 100%;display: flex; justify-content: center;position: fixed; top: 100px;">
+<view wx:if="{{isDesign}}" style="width: 100%;display: flex; justify-content: center;position: fixed; top: {{targetTop}}px;">
   <view class="route-bg">
     <scroll-view scroll-x enable-flex class="route-msg">
       <view wx:for="{{polylineMks}}" wx:key="index" class="route">
