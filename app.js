@@ -31,8 +31,11 @@ App({
     musicManager.loop = true;
     musicManager.play();
     // 创建一个用于导航时语言播报的对象
-    const audioManager = wx.createInnerAudioContext({ useWebAudioImplement: true });
+    const audioManager = wx.createInnerAudioContext();
     this.globalData.audioManager = audioManager;
+    audioManager.onEnded(() => {
+      musicManager.play();
+    });
   },
 
   onShow() {
@@ -170,7 +173,7 @@ App({
    * @param text 文本
    * @returns 音频的链接
    */
-  generateAudio(text){
+  txtToAudio(text) {
     const plugin = this.globalData.plugin;
     return new Promise((resolve, reject) => {
       plugin.textToSpeech({
@@ -193,11 +196,35 @@ App({
    */
   playAudio(src) {
     const audioManager = this.globalData.audioManager;
-    if (audioManager.paused) {
+    if (audioManager.paused == false) {
       return false;
     }
+    const musicManager = this.globalData.musicManager;
+    musicManager.pause();
     audioManager.src = src;
     audioManager.play();
+    return true;
+  },
+
+  getDistanceOf(from, to) {
+    const toRad = (degree) => degree * Math.PI / 180;
+    // 地球半径，单位米
+    const R = 6371000;
+
+    // 将经纬度转换为弧度
+    const φ1 = toRad(from.latitude);
+    const φ2 = toRad(to.latitude);
+    const Δφ = toRad(to.latitude - from.latitude);
+    const Δλ = toRad(to.longitude - from.longitude);
+
+    // Haversine 公式
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    // 计算距离，单位为米
+    return R * c;
   },
 
   // 全局变量

@@ -19,6 +19,8 @@ Page({
     polygons: null,
     polyline: null,
     isDesign: false,
+    isNavigate: false,
+    navigationText: '',
     color: ['#7bbae4', '#C0C0C0', '#808000', '#32CD32', '#008080', '#FF7F50', '#FFD700', '#FF00FF', '#00FFFF', '#FFA500', '#0000FF', '#FFC0CB'],
   },
 
@@ -119,7 +121,7 @@ Page({
     point.anchor.y = 0.5;
     if (type == 'start') {
       point.iconPath = "/map-icons/start-point.png";
-      point.callout.color = '#14d8ce';
+      point.callout.color = '#13891b';
     } else if (type == 'mid') {
       point.iconPath = "/map-icons/mid-point.png";
       point.callout.color = "#c111b3";
@@ -130,7 +132,7 @@ Page({
     return point;
   },
 
-  getRoute() {
+  createPolyine() {
     const points = this.data.markers;
     // 判断是否具备起点和终点
     if (points.filter(item => (item.callout.content == '起点' || item.callout.content == '终点')).length < 2) {
@@ -175,6 +177,7 @@ Page({
         param['distance'] = [];
         param['duration'] = [];
         param['points'] = [];
+        param['leader'] = [];
         for (let j = 0; j < ways.length; ++j) {
           const way = ways[j];
           param['distance'].push(way.distance);
@@ -188,6 +191,9 @@ Page({
               latitude: point.lat,
               longitude: point.lng
             });
+            if ((j == 0 && k == 0) || k == way.points.length - 1) {
+              param['leader'].push(param['points']);
+            }
           }
         }
         polyline.push(param);
@@ -212,36 +218,7 @@ Page({
   },
 
   showRouteMessage(polylineMks) {
-    console.log(polylineMks);
     this.setData({ polylineMks: polylineMks, isDesign: true })
-  },
-
-  getWays(i, regions) {
-    app.getPath(regions[i], regions[++i]).then(res => {
-      const polyline = this.data.polyline;
-      if (polyline == null) {
-        this.setData({
-          polyline: [{
-            points: res.polyline,
-            color: '#7bbae4',
-            width: 5,
-            borderColor: "#2c2c2c",
-            borderWidth: 2,
-            arrowLine: true,
-          }]
-        });
-      } else {
-        for (let i = 0; i < res.polyline.length; ++i) {
-          polyline[0]['points'].push(res.polyline[i]);
-        }
-        this.setData({ polyline: polyline });
-      }
-    });
-    if (i < regions.length - 1) {
-      setTimeout(() => {
-        this.getWays(i, regions);
-      }, 1300);
-    }
   },
 
   /**
@@ -359,8 +336,12 @@ Page({
       startIdx: -1,
       endIdx: -1,
       uniqueID: 1,
-      isDesign: false
-    })
+      isDesign: false,
+      polylineMks: []
+    });
+    wx.showToast({
+      title: '清空地图成功',
+    });
   },
 
   /**
@@ -413,52 +394,37 @@ Page({
     this.setData(result);
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  cancelNavigation: function() {
+    this.setData({ polyline: [], isDesign: false, polylineMks: [], isNavigate: false });
+    wx.showToast({
+      title: '取消路线成功',
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  startNavigation: async function() {
+    this.setData({ isNavigate: true });
+    const polyline = this.data.polyline;
+    const textArrs = [];
+    const srcMap = {};
+    for (let i = 0; i < polyline.length; ++i) {
+      const textArr = [];
+      const route = polyline[i];
+      textArr.push(`现在开始第${i + 1}段路线, 请根据地图前往路线的起点`);
+      for (let j = 0; j < route.distance.length; ++j) {
+        const distance = route.distance[j];
+        textArr.push(`沿着地图道路行驶${distance}米，可到达下一拐角点`);
+      }
+      textArr.push(`第${i + 1}段路线的导航到此结束, 目标地点就在附近, 请根据地图前往目标点`);
+      if (i == polyline.length - 1) {
+        textArr.push('导航到此结束, 感谢使用！');
+      }
+      textArrs.push(textArr);
+    }
+    app.txtToAudio(textArrs[0][0]).then((src) => {
+      app.playAudio(src);
+    }).catch((err) => {
+      console.log(err);
+    });
+    this.setData({ navigationText: textArrs[0][0] });
   }
 })

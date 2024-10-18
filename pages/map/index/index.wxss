@@ -72,7 +72,7 @@
 }
 
 .route-bg {
-  width: 80%;
+  width: 90%;
   display: flex;
   justify-content: center;
   box-shadow: 1rpx 1rpx 19rpx 1rpx rgba(0, 0, 0, .03);
@@ -82,16 +82,34 @@
   padding-bottom: 10px;
 }
 
-.route-msg {
+.route-msg1 {
   display: flex;
   white-space: nowrap;
   height: 140rpx;
-  width: 80%;
+  width: 100%;  /* 调整为 100% */
+  justify-content: flex-start;  /* 根据内容对齐方式选择 */
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+.route-msg2 {
+  display: flex;
+  white-space: nowrap;
   justify-content: center;
+  align-items: center;
 }
 
 .route {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.txt {
+  box-shadow: 1rpx 1rpx 19rpx 1rpx rgba(0, 0, 0, .03);
+  border-radius: 20rpx;
+  background-color: rgba(172, 182, 182, 0.8);
+  width: 90%;
+  padding: 5px;
 }

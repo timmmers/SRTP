@@ -21,7 +21,7 @@
   polyline="{{polyline}}">
 </map>
 
-<image bind:tap="getRoute" id="designBtn" src="/map-icons/design.png" class="design-icon" style="left: {{halfHeight1}}px;"></image>
+<image bind:tap="createPolyine" id="designBtn" src="/map-icons/design.png" class="design-icon" style="left: {{halfHeight1}}px;"></image>
 
 <view bindtap="refreshPosition" class="icon-button" style="left: 20rpx;bottom: 180rpx;">
   <image class="icon" src="/map-icons/refresh.png"></image>
@@ -59,13 +59,23 @@
   </block>
 </my-modal>
 
-<view wx:if="{{isDesign}}" style="width: 100%;display: flex; justify-content: center;position: fixed; top: {{targetTop}}px;">
+<view wx:if="{{isDesign}}" style="width: 100%;display: flex;justify-content: center;position: fixed; top: {{targetTop}}px;">
   <view class="route-bg">
-    <scroll-view scroll-x enable-flex class="route-msg">
-      <view wx:for="{{polylineMks}}" wx:key="index" class="route">
-        <image style="width: 100rpx; height: 100rpx;" src="{{item.iconPath}}"></image>
-        <view>{{item.callout.content}}</view>
+    <scroll-view scroll-x enable-flex class="route-msg1">
+      <view wx:for="{{polylineMks}}" wx:key="index" wx:for-index="index" class="route-msg2">
+        <view class="route">
+          <image style="width: 100rpx; height: 100rpx;" src="{{item.iconPath}}"></image>
+          <view>{{item.callout.content}}</view>
+        </view>
+        <image style="width: 90rpx; height: 90rpx;" wx:if="{{index < (polylineMks.length - 1)}}" src="/map-icons/to.png"></image>
       </view>
     </scroll-view>
   </view>
+</view>
+<view wx:if="{{isDesign}}" style="width: 100%; display: flex; justify-content: center;">
+  <view wx:if="{{!isNavigate}}" class="txt" style="display: flex; flex-direction: row; position: fixed; top: {{targetTop + 100}}px;">
+      <button bind:tap="cancelNavigation" type="warn" plain="true" style="margin-right: 20px;">取消</button>
+      <button bind:tap="startNavigation" type="primary" plain="true">开始导航</button>
+  </view>
+  <view wx:if="{{isNavigate}}" class="txt" style="display: flex; justify-content: center; align-items: center; position: fixed; top: {{targetTop + 100}}px; font-size: large; color: blueviolet;font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;">{{navigationText}}</view>
 </view>
